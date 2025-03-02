@@ -7,7 +7,6 @@ TimerApp is a React Native application designed to provide a simple and intuitiv
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- 
 
 ## Features
 
@@ -45,6 +44,6 @@ npm run dev
 
 ```
 
-Install the TimerApp on your android device using this Link :
+Install the .apk of TimerApp using this Link :
 [TimerApp](https://expo.dev/accounts/ritikp1532/projects/timerapp/builds/6c5eaa0d-6cc9-42d9-9ea2-1183466a9c65)
 
