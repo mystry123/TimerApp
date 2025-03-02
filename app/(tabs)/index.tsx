@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text, SafeAreaView } from 'react-native';
+import { View, ScrollView, Text, SafeAreaView, FlatList } from 'react-native';
 import { useTimer } from '@/hooks/useTimer';
 import { CategoryCard } from '@/components/timer/CategoryCard';
 import { TimerForm } from '@/components/timer/TimerForm';
@@ -26,25 +26,26 @@ const TimerScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100 dark:bg-black">
-      <ScrollView className="flex-1 p-4">
-        {Object.keys(groupedTimers).length > 0 ? (
-          Object.entries(groupedTimers).map(([category, categoryTimers]) => (
-            <CategoryCard
-              key={category}
-              category={category}
-              timers={categoryTimers}
-              isExpanded={expandedCategories.includes(category)}
-              onToggle={() => toggleCategoryExpansion(category)}
-              onStartAll={startAllInCategory}
-              onPauseAll={pauseAllInCategory}
-              onResetAll={resetAllInCategory}
-              onStartTimer={startTimer}
-              onPauseTimer={pauseTimer}
-              onResetTimer={resetTimer}
-              onDeleteTimer={deleteTimer}
-            />
-          ))
-        ) : (
+      <FlatList
+        data={Object.entries(groupedTimers)}
+        keyExtractor={([category]) => category}
+        renderItem={({ item: [category, categoryTimers] }) => (
+          <CategoryCard
+            key={category}
+            category={category}
+            timers={categoryTimers}
+            isExpanded={expandedCategories.includes(category)}
+            onToggle={() => toggleCategoryExpansion(category)}
+            onStartAll={startAllInCategory}
+            onPauseAll={pauseAllInCategory}
+            onResetAll={resetAllInCategory}
+            onStartTimer={startTimer}
+            onPauseTimer={pauseTimer}
+            onResetTimer={resetTimer}
+            onDeleteTimer={deleteTimer}
+          />
+        )}
+        ListEmptyComponent={
           <View className="items-center justify-center py-10">
             <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
               No timers yet
@@ -53,9 +54,9 @@ const TimerScreen = () => {
               Tap the + button to create your first timer
             </Text>
           </View>
-        )}
-      </ScrollView>
-
+        }
+        contentContainerStyle={{ flexGrow: 1, padding: 4 }}
+      />
       <Button
         variant="primary"
         size="icon"

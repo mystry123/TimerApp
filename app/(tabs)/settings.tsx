@@ -14,7 +14,6 @@ import { useSettings } from '@/contexts/SettingContext';
 
 const SettingsScreen = () => {
   const { settings, toggleSetting, resetSettings } = useSettings();
-  console.log('rendersss')
 
   const handleToggleSetting = async (setting: keyof typeof settings) => {
     try {

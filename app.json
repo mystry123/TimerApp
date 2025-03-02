@@ -15,10 +15,14 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.timerapp"
+      "bundleIdentifier": "com.yourcompany.timerapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "com.yourcompany.timerapp"
+      "package": "com.yourcompany.timerapp",
+
     },
     "web": {
       "bundler": "metro",

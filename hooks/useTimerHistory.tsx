@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert, Platform, Share } from 'react-native';
+import { Alert } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 interface HistoryItem {
   id: string;
@@ -49,27 +51,24 @@ export const useTimerHistory = () => {
 
   const exportHistory = useCallback(async () => {
     try {
-      console.log('Exporting history:', history);
-      const dataStr = JSON.stringify(history, null, 2);
-      console.log('Exporting history:', dataStr);
+      const  historyString = await AsyncStorage.getItem('timerHistory');
+      const dataStr = JSON.stringify(historyString, null, 2);
 
-      if (Platform.OS === 'web') {
-        const dataUri =
-          'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-        const exportFileDefaultName = `timer-history-${
-          new Date().toISOString().split('T')[0]
-        }.json`;
+      const fileName = `timer-history-${new Date().toISOString().split('T')[0]}.json`;
+      const fileUri = FileSystem.documentDirectory + fileName;
 
-        const linkElement = document.createElement('a');
-        linkElement.setAttribute('href', dataUri);
-        linkElement.setAttribute('download', exportFileDefaultName);
-        linkElement.click();
-      } else {
-        await Share.share({
-          title: 'Timer History',
-          message: dataStr,
-          url: Platform.OS === 'ios' ? undefined : dataStr, // Android requires message, iOS can use url
+      await FileSystem.writeAsStringAsync(fileUri, dataStr, {
+        encoding: FileSystem.EncodingType.UTF8,
+      });
+
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(fileUri, {
+          mimeType: 'application/json',
+          dialogTitle: 'Share Timer History',
+          UTI: 'public.json',
         });
+      } else {
+        Alert.alert('Sharing not available', 'Sharing is not available on this device.');
       }
     } catch (error) {
       console.error('Failed to export history:', error);

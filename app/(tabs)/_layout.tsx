@@ -1,4 +1,4 @@
-import { SplashScreen, Tabs } from 'expo-router';
+import {  Tabs } from 'expo-router';
 import {
   House,
   History,
@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
-  const { exportHistory, clearHistory, loadHistory } = useTimerHistory();
+  const {  exportHistory, clearHistory } = useTimerHistory();
   const isDark = colorScheme === 'dark';
 
 
@@ -23,7 +23,6 @@ export default function TabLayout() {
 
   useEffect(() => {
     loadSettings();
-    loadHistory();
   }, []);
 
   return (
