@@ -23,7 +23,7 @@ To get started with TimerApp, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/TimerApp.git
+    git clone https://github.com/mystry123/TimerApp.git
     cd TimerApp
     ```
 
